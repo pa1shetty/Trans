@@ -1,0 +1,18 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.Trans" parent="Theme.Material3.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+
+    </style>
+
+
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_adb_24</item>
+        <item name="postSplashScreenTheme">@style/Theme.Trans</item>
+        <item name="windowSplashScreenBackground">?attr/colorSurface</item>
+
+    </style>
+
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_adb_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_kotlin_hero_new_animated_total.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.14322916666666666" />
+        <entry key="app/src/main/res/layout/fragment_app_update_screen.xml" value="0.12395833333333334" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_splash_screen.xml" value="0.16576086956521738" />
+        <entry key="app/src/main/res/layout/login_screen.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/otp_screen.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/phone_number_screen.xml" value="0.16394927536231885" />
+        <entry key="app/src/main/res/layout/setup_screen.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
