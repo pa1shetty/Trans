@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @FragmentScoped
 class FirebaseAuth @Inject constructor(@ActivityContext private val context: Context) {
-    val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     fun startPhoneNumberVerification(
         phoneNumber: String,
@@ -46,7 +46,6 @@ class FirebaseAuth @Inject constructor(@ActivityContext private val context: Con
         token?.let { options.setForceResendingToken(it) }
 
         PhoneAuthProvider.verifyPhoneNumber(options.build())
-        // [END start_phone_auth]
     }
 
     fun signInWithPhoneAuthCredential(

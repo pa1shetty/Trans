@@ -1,6 +1,5 @@
 package com.example.trans.screens.setup_screen.vm
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trans.data.datastore.DataStoreRepository
@@ -49,7 +48,6 @@ class SetupScreenVM @Inject constructor(
     private val isLoginMandatory = fireBaseConfigRepository.isLoginMandatory
 
     suspend fun navigate(): NavigateTo {
-        Log.d("test200", "navigate: ")
         if (isUpdateNeeded == MANDATORY_UPDATE) return UPDATE_SCREEN
         if (isLoggedIn.first()) return HOME_SCREEN
         if (isLoginMandatory) return LOGIN_SCREEN

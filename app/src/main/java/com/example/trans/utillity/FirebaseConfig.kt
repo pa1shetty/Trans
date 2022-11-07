@@ -1,8 +1,6 @@
 package com.example.trans.utillity
 
-import android.util.Log
 import com.example.trans.R
-import com.example.trans.screens.setup_screen.utils.states.ConfigSetupState
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import javax.inject.Inject

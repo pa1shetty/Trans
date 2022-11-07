@@ -6,6 +6,4 @@ import javax.inject.Singleton
 
 
 @Singleton
-class UtilClass @Inject constructor(private val context: Context){
-
-}
+class UtilClass @Inject constructor(private val context: Context)

@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
-import android.util.Log
 import androidx.activity.result.IntentSenderRequest
 import com.example.trans.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.firebase.FirebaseException
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
@@ -42,7 +40,7 @@ class GoogleSignSetup @Inject constructor(@ActivityContext private val context: 
             }
     }
 
-    val oneTapClient: SignInClient by lazy { Identity.getSignInClient(context) }
+    private val oneTapClient: SignInClient by lazy { Identity.getSignInClient(context) }
     private val signInRequest: BeginSignInRequest by lazy {
         BeginSignInRequest.builder()
             .setPasswordRequestOptions(
@@ -61,7 +59,4 @@ class GoogleSignSetup @Inject constructor(@ActivityContext private val context: 
             .build()
     }
     fun getGoogleCredential(data: Intent?) =oneTapClient.getSignInCredentialFromIntent(data)
-    init {
-
-    }
 }

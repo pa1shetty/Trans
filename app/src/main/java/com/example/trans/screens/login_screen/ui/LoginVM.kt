@@ -3,6 +3,7 @@ package com.example.trans.screens.login_screen.ui
 import androidx.lifecycle.ViewModel
 import com.example.trans.data.datastore.DataStoreRepository
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -17,4 +18,5 @@ class LoginVM @Inject constructor(private val dataStoreRepository: DataStoreRepo
     var phoneNumber = "9741028810"
     var verificationId = ""
     var otp = "111111"
+    var resendingToken: PhoneAuthProvider.ForceResendingToken? = null
 }

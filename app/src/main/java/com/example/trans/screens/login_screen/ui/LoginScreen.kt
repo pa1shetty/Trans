@@ -1,16 +1,13 @@
 package com.example.trans.screens.login_screen.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -29,7 +26,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginScreen : Fragment() {
-    lateinit var binding: LoginScreenBinding
+    private lateinit var binding: LoginScreenBinding
     private val vm: LoginVM by navGraphViewModels(R.id.login_graph) { defaultViewModelProviderFactory }
 
     @Inject
@@ -55,13 +52,11 @@ class LoginScreen : Fragment() {
             navigateTo(LoginScreenDirections.actionLoginScreenToPhoneNumberScreen())
         }
         binding.btnGoogleLogin.setOnClickListener {
-            Log.d(TAG, "setUpClick: ")
             googleSignInStart()
         }
     }
 
 
-    private val TAG = "test123"
     private var showOneTapUI = true
     private fun googleSignInStart() {
         googleSignSetup.beginSignIn(onSuccess = { intentSenderRequest ->
@@ -121,9 +116,7 @@ class LoginScreen : Fragment() {
 
     private fun navigateTo(navDirections: NavDirections) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                findNavController().navigate(navDirections)
-            }
+            findNavController().navigate(navDirections)
         }
     }
 

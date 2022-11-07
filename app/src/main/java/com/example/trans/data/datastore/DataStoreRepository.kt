@@ -1,6 +1,5 @@
 package com.example.trans.data.datastore
 
-import androidx.datastore.dataStore
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -12,11 +12,13 @@
         <action
             android:id="@+id/action_setupScreen_to_loginScreen"
             app:destination="@id/login_graph"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/setupScreen"/>
+            app:popUpTo="@id/setupScreen"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_setupScreen_to_homeScreen"
-            app:destination="@id/homeScreen" />
+            app:destination="@id/homeScreen"
+            app:popUpTo="@id/setupScreen"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_setupScreen_to_appUpdateScreen"
             app:destination="@id/appUpdateScreen" />
@@ -26,20 +28,24 @@
         android:name="com.example.trans.screens.home_screen.HomeScreen"
         android:label="home_screen"
         tools:layout="@layout/home_screen" />
-    <navigation android:id="@+id/login_graph"
+    <navigation
+        android:id="@+id/login_graph"
         app:startDestination="@id/loginScreen">
         <fragment
             android:id="@+id/otpScreen"
             android:name="com.example.trans.screens.login_screen.ui.OtpScreen"
-            android:label="OtpScreen">
-        </fragment>
+            android:label="OtpScreen" />
         <fragment
             android:id="@+id/phoneNumberScreen"
             android:name="com.example.trans.screens.login_screen.ui.PhoneNumberScreen"
             android:label="PhoneNumberScreen">
             <action
                 android:id="@+id/action_phoneNumberScreen_to_otpScreen"
-                app:destination="@id/otpScreen" />
+                app:destination="@id/otpScreen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/no_anim"
+                app:popEnterAnim="@anim/no_anim"
+                app:popExitAnim="@anim/slide_out_right" />
         </fragment>
         <fragment
             android:id="@+id/loginScreen"
@@ -48,11 +54,21 @@
             tools:layout="@layout/screen_login">
             <action
                 android:id="@+id/action_loginScreen_to_phoneNumberScreen"
-                app:destination="@id/phoneNumberScreen" />
+                app:destination="@id/phoneNumberScreen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/no_anim"
+                app:popEnterAnim="@anim/no_anim"
+                app:popExitAnim="@anim/slide_out_right" />
         </fragment>
         <action
             android:id="@+id/action_global_homeScreen"
-            app:destination="@id/homeScreen" />
+            app:destination="@id/homeScreen"
+            app:popUpTo="@id/loginScreen"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/no_anim"
+            app:popEnterAnim="@anim/no_anim"
+            app:popExitAnim="@anim/fade_out"/>
     </navigation>
     <fragment
         android:id="@+id/appUpdateScreen"

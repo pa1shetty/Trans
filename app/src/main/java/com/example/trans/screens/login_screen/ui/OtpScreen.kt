@@ -1,15 +1,13 @@
 package com.example.trans.screens.login_screen.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.Lifecycle
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -48,7 +46,7 @@ class OtpScreen : Fragment() {
     }
 
     private fun setUpClick() {
-        binding.btnConfim.setOnClickListener {
+        binding.btnConfirm.setOnClickListener {
             confirmButtonClick()
         }
     }
@@ -86,9 +84,7 @@ class OtpScreen : Fragment() {
 
     private fun navigateTo(navDirections: NavDirections) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                findNavController().navigate(navDirections)
-            }
+            findNavController().navigate(navDirections)
         }
     }
 }
