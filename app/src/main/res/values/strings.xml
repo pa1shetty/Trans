@@ -14,4 +14,6 @@
     <string name="web_client_id" translatable="false">415273672155-jacegoivq4mdgeag0vu0pqog0jj4ghsd.apps.googleusercontent.com</string>
     <string name="confirm">Confirm</string>
     <string name="_111111">111111</string>
+    <string name="using_phone_number">Using Phone Number</string>
+    <string name="using_google">Using Google</string>
 </resources>

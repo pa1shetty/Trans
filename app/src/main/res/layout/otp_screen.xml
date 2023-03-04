@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    android:background="?android:colorBackground"
+    android:background="@color/colorUILiteBackground"
     tools:context=".screens.login_screen.ui.PhoneNumberScreen">
 
     <com.google.android.material.textfield.TextInputLayout

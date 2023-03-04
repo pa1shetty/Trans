@@ -1,9 +1,19 @@
 <resources>
 
-    <style name="Theme.Trans" parent="Theme.Material3.DayNight">
+    <style name="Theme.Trans" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Transparent system bars for edge-to-edge. -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorUILiteBackground</item>
+        <item name="android:statusBarColor">@color/colorUILiteBackground</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorUIBrand</item>
+        <item name="android:buttonStyle">@style/AppTheme.Button</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.Button" parent="MaterialAlertDialog.Material3">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
     </style>
 </resources>
