@@ -1,19 +1,34 @@
 <resources>
     <string name="app_name">Trans</string>
-    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="update_app">Update App</string>
     <string name="update_now">Update Now</string>
     <string name="dialog_update_available_message">Must update</string>
     <string name="later">Later</string>
-    <string name="web_client_id" translatable="false">415273672155-jacegoivq4mdgeag0vu0pqog0jj4ghsd.apps.googleusercontent.com</string>
     <string name="confirm">Confirm</string>
-    <string name="_111111">111111</string>
     <string name="using_phone_number">Using Phone Number</string>
-    <string name="using_google">Using Google</string>
+    <string name="something_went_wrong">Something went wrong</string>
+
+    <string name="let_s_get_started">Let\'s Get Started</string>
+    <string name="by_proceeding_you_accept">By proceeding you accept</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="we_will_send_an_otp_to_your_number">We will send an OTP to your number\t\t</string>
+    <string name="proceed">Proceed</string>
+    <string name="need_help">Need Help?</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="smartphone">Smartphone</string>
+    <string name="settings">Settings</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="home_screen_welcome">Hello, %1$s</string>
+    <string name="profile">Profile</string>
+
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+
 </resources>

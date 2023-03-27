@@ -17,7 +17,7 @@ object AppModule {
     @Provides
     @Singleton
     fun commonFunctionsWithContext(@ApplicationContext appContext: Context) =
-        UtilClass(appContext)
+        UtilClass()
 
     @Provides
     @Singleton

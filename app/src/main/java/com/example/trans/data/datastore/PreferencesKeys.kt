@@ -7,6 +7,7 @@ object PreferencesKeys {
     val userName = stringPreferencesKey("userName")
     val userEmail = stringPreferencesKey("userEmail")
     val userId = stringPreferencesKey("userId")
+    val userPhoneNumber = stringPreferencesKey("userPhoneNumber")
 
     val lastAppUpdateDate = stringPreferencesKey("lastAppUpdateDate")
     val upgradeFlag = stringPreferencesKey("upgradeFlag")

@@ -1,9 +1,17 @@
 package com.example.trans.utillity
 
-import android.content.Context
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
-class UtilClass @Inject constructor(private val context: Context)
+class UtilClass @Inject constructor(){
+    fun validateData(strings: ArrayList<String>): Boolean {
+        for (s in strings) {
+            if (s.isEmpty()) {
+                return false // return false if any string is empty
+            }
+        }
+        return true // all strings are not empty
+    }
+}

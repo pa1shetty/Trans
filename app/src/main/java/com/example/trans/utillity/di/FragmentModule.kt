@@ -1,6 +1,7 @@
 package com.example.trans.utillity.di
 
 import android.content.Context
+import com.example.trans.utillity.LocationHelper
 import com.example.trans.utillity.firebase.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -17,4 +18,11 @@ object FragmentModule {
     fun provideFirebaseAuth(
         @ActivityContext app: Context,
     ) = FirebaseAuth(app)
+
+
+    @Provides
+    @FragmentScoped
+    fun provideLocationHelper(
+        @ActivityContext app: Context,
+    ) = LocationHelper(app)
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/setupScreen">
+    <fragment
+        android:id="@+id/setupScreen"
+        android:name="com.example.trans.screens.setup_screen.ui.SetupScreen"
+        android:label="setup_screen"
+        tools:layout="@layout/setup_screen">
+        <action
+            android:id="@+id/action_setupScreen_to_loginScreen"
+            app:destination="@id/login_graph"
+            app:popUpTo="@id/setupScreen"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_setupScreen_to_homeScreen"
+            app:destination="@id/homeScreen"
+            app:popUpTo="@id/setupScreen"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_setupScreen_to_appUpdateScreen"
+            app:destination="@id/appUpdateScreen" />
+        <action
+            android:id="@+id/action_setupScreen_to_registrationFragment"
+            app:destination="@id/registrationFragment"
+            app:popUpTo="@id/setupScreen"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeScreen"
+        android:name="com.example.trans.screens.home_screen.OrderScreen"
+        android:label="home_screen"
+        tools:layout="@layout/order_screen" />
+    <navigation
+        android:id="@+id/login_graph"
+        app:startDestination="@id/phoneNumberScreen">
+        <fragment
+            android:id="@+id/otpScreen"
+            android:name="com.example.trans.screens.login_screen.ui.OtpScreen"
+            android:label="OtpScreen" />
+        <fragment
+            android:id="@+id/phoneNumberScreen"
+            android:name="com.example.trans.screens.login_screen.ui.PhoneNumberScreen"
+            android:label="PhoneNumberScreen">
+            <action
+                android:id="@+id/action_phoneNumberScreen_to_otpScreen"
+                app:destination="@id/otpScreen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/no_anim"
+                app:popEnterAnim="@anim/no_anim"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/loginScreen"
+            android:name="com.example.trans.screens.login_screen.ui.LoginScreen"
+            android:label="screen_login"
+            tools:layout="@layout/screen_login">
+            <action
+                android:id="@+id/action_loginScreen_to_phoneNumberScreen"
+                app:destination="@id/phoneNumberScreen"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/no_anim"
+                app:popEnterAnim="@anim/no_anim"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_homeScreen"
+            app:destination="@id/homeScreen"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/no_anim"
+            app:popEnterAnim="@anim/no_anim"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/phoneNumberScreen"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_global_registrationFragment"
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/no_anim"
+            app:popEnterAnim="@anim/no_anim"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/phoneNumberScreen"
+            app:popUpToInclusive="true" />
+    </navigation>
+    <fragment
+        android:id="@+id/appUpdateScreen"
+        android:name="com.example.trans.screens.update_screen.AppUpdateScreen"
+        android:label="app_update_screen"
+        tools:layout="@layout/app_update_screen" />
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.trans.screens.login_screen.ui.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registrationFragment_to_homeScreen"
+            app:destination="@id/homeScreen"
+            app:popUpTo="@id/registrationFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

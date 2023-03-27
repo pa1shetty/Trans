@@ -7,7 +7,6 @@ object NetworkConstants {
 
     const val mserver = "mserver"
 
-    const val requestTypeLbl = "requestType"
     const val statusLbl = "status"
     const val versionLbl = "version"
     const val okLbl = "OK"
@@ -25,16 +24,13 @@ object NetworkConstants {
     const val cTokenLbl = "cToken"
     const val keyLbl = "key"
     const val splTknLbl = "splTkn"
-
+    const val uat = "https://api.icarebuddy.com/Test/airavath/api/"
     fun getBaseUrl(urlType: Int = BaseUrlTypeEnum.Uat.baseUrlType): String {
         return when (urlType) {
-            BaseUrlTypeEnum.PavanLocal.baseUrlType -> "http://10.8.0.10:8084/bwi_mobile/"
-            BaseUrlTypeEnum.ONE_NOT_ONE.baseUrlType -> "https://auminfotech.in/bwi_mobile/"
-            BaseUrlTypeEnum.MockLab.baseUrlType -> "https://nammametromvvm.mocklab.io"
-            BaseUrlTypeEnum.PostMan.baseUrlType -> "https://e58d0ec4-f6a5-4ebe-9ee5-c517da7bf3dc.mock.pstmn.io"
-
+            BaseUrlTypeEnum.PostMan.baseUrlType -> "https://d1492bfc-c1ff-4457-9009-bfeae5ee1486.mock.pstmn.io"
+            BaseUrlTypeEnum.Uat.baseUrlType -> uat
             else -> {
-                "http://uatmetro.auminfotech.in:7004/bwi_mobile/"
+                uat
             }
         }
     }
@@ -42,15 +38,10 @@ object NetworkConstants {
 }
 
 enum class RequestTypeEnum(val requestType: String) {
-    @Suppress("unused")
-    CheckForUpdate("115"),
-    Download("113"),
-    RequestForOtp("103"),
-    VerifyOtp("104"),
-    Register("105"),
-    FetchTicketList("121"),
+    IsUserWhitelisted("IsUserWhitelisted"),
 
 }
+
 @Suppress("unused")
 enum class DownloadTypeEnum(val downloadType: String) {
     Configuration("3"),
@@ -58,10 +49,5 @@ enum class DownloadTypeEnum(val downloadType: String) {
 
 enum class BaseUrlTypeEnum(val baseUrlType: Int) {
     Uat(0),
-    PavanLocal(1),
-    ONE_NOT_ONE(2),
-    MockLab(4),
     PostMan(5)
-
-
 }

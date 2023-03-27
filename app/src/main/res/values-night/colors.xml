@@ -6,8 +6,6 @@
 
 
     <color name="colorUIBrand">#A363EB</color>
-    <color name="colorUIBrandLite">#DABAE3</color>
-    <color name="colorUIBrandTint">#38244F</color>
     <color name="colorUILiteBackground">#2D2338</color>
     <color name="colorVectorBg">#1AA363EB</color>
     <color name="colorUIDark">#EFE6F7</color>

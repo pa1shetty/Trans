@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#80000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">@color/colorUIDark</color>
     <color name="colorPrimaryDark">@color/colorUIDark</color>
@@ -8,10 +8,14 @@
 
 
     <color name="colorUIBrand">#5F259F</color>
-    <color name="colorUIBrandLite">#C78FFC</color>
-    <color name="colorUIBrandTint">#DFCBF7</color>
     <color name="colorUILiteBackground">#ECEFF1</color>
     <color name="colorVectorBg">#145F259F</color>
     <color name="colorUIDark">#212121</color>
+
+    <color name="bmrcl_color">@color/colorUIBrand</color>
+    <color name="bmrcl_color_bg">#ffffff</color>
+    <color name="colorSplashScreenBg">#ffffff</color>
+    <color name="textColor">@color/black</color>
+    <color name="lightGray">#D3D3D3</color>
 
 </resources>

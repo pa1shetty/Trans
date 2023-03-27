@@ -14,9 +14,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.trans.databinding.SetupScreenBinding
+import com.example.trans.network.Enums.NavigateTo.*
 import com.example.trans.screens.setup_screen.utils.states.ConfigSetupState
 import com.example.trans.screens.setup_screen.vm.SetupScreenVM
-import com.example.trans.screens.setup_screen.vm.SetupScreenVM.NavigateTo.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,13 +52,14 @@ class SetupScreen : Fragment() {
         }
     }
 
-    private suspend fun navigateTo() {
+    private  fun navigateTo() {
         splashScreen.setKeepOnScreenCondition { true }
-        withContext(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             when (viewModel.navigate()) {
                 LOGIN_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToLoginScreen())
                 HOME_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToHomeScreen())
                 UPDATE_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToAppUpdateScreen())
+                REG_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToRegistrationFragment())
             }
         }
     }
@@ -67,7 +68,6 @@ class SetupScreen : Fragment() {
         withContext(Dispatchers.Main) {
             navigateTo(navDirections)
             splashScreen.setKeepOnScreenCondition { false }
-
         }
     }
 
@@ -89,6 +89,8 @@ class SetupScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observers()
+        navigateTo()
+        //skip config
+        //observers()
     }
 }

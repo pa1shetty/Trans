@@ -13,6 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.trans.R
 import com.example.trans.databinding.PhoneNumberScreenBinding
+import com.example.trans.network.Enums.RequestStatus
+import com.example.trans.screens.setup_screen.utils.CustomButton
+import com.example.trans.utillity.UtilsClassUI
 import com.example.trans.utillity.firebase.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,10 +31,16 @@ class PhoneNumberScreen : Fragment() {
 
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var customButton: CustomButton
+
+
     private lateinit var binding: PhoneNumberScreenBinding
+
+    @Inject
+    lateinit var utilsClassUI: UtilsClassUI
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = PhoneNumberScreenBinding.inflate(layoutInflater)
         return binding.root
@@ -40,8 +49,9 @@ class PhoneNumberScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listeners()
+        setProceedButton()
+        setUpObserver()
         setUpClick()
-
     }
 
     private fun listeners() {
@@ -52,33 +62,43 @@ class PhoneNumberScreen : Fragment() {
 
     private fun setUpClick() {
         binding.btnProceed.setOnClickListener {
-            startPhoneNumberVerification(("+91") + vm.phoneNumber)
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                vm.phoneNumber = binding.etNumber.text.toString()
+                vm.checkIfUserIsWhitelisted()
+            }
         }
     }
 
     private fun startPhoneNumberVerification(phoneNumber: String) {
-        firebaseAuth.startPhoneNumberVerification(
-            phoneNumber, vm.resendingToken,
+        utilsClassUI.showLoadingUI(binding.loadingLayout.root)
+        firebaseAuth.startPhoneNumberVerification(phoneNumber,
+            vm.resendingToken,
             onVerificationCompleted = { credential ->
-                firebaseAuth.signInWithPhoneAuthCredential(
-                    credential, signInSuccessFull = { firebaseUSer ->
+                firebaseAuth.signInWithPhoneAuthCredential(credential,
+                    signInSuccessFull = { firebaseUSer ->
+                        utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
                         userLoggedIn(firebaseUSer)
-                    }, invalidCredential = {
+                    },
+                    invalidCredential = {
+                        utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
                         Toast.makeText(requireContext(), "Invalid Credentials!!", Toast.LENGTH_LONG)
                             .show()
-                    }, error = {
-                        Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_LONG)
-                            .show()
+                    },
+                    error = {
+                        utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show()
 
                     })
             },
             onVerificationFailed = {
-                Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_LONG)
+                utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+                Toast.makeText(requireContext(), "Otp Verification Failed", Toast.LENGTH_LONG)
                     .show()
-            }, onCodeSent =
-            { verificationId, forceResendingToken ->
+            },
+            onCodeSent = { verificationId, forceResendingToken ->
                 vm.verificationId = verificationId
                 vm.resendingToken = forceResendingToken
+                utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
                 navigateTo(PhoneNumberScreenDirections.actionPhoneNumberScreenToOtpScreen())
             })
     }
@@ -87,7 +107,9 @@ class PhoneNumberScreen : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             vm.userLoggedIn(firebaseUSer)
             withContext(Dispatchers.Main) {
-                navigateTo(PhoneNumberScreenDirections.actionGlobalHomeScreen())
+                utilsClassUI.toastMessage("Firebase login done.")
+
+                // navigateTo(PhoneNumberScreenDirections.actionGlobalHomeScreen())
             }
         }
     }
@@ -97,4 +119,33 @@ class PhoneNumberScreen : Fragment() {
             findNavController().navigate(navDirections)
         }
     }
+
+    private fun setUpObserver() {
+        vm.ifUserIsWhitelistedResponseLiveData.observe(viewLifecycleOwner) { loginState ->
+            if (loginState) {
+                startPhoneNumberVerification(("+91") + vm.phoneNumber)
+            } else {
+                utilsClassUI.showAlertDialog()
+            }
+        }
+        vm.requestStatusLiveData.observe(viewLifecycleOwner) { status ->
+            when (status) {
+                RequestStatus.REQ_PROGRESS -> utilsClassUI.showLoadingUI(binding.loadingLayout.root)
+                else -> {
+                    utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+                }
+            }
+        }
+    }
+
+    private fun setProceedButton() {
+        customButton = CustomButton(
+            binding.cvProceed,
+            binding.pbLogin,
+            requireActivity(),
+            binding.btnProceed,
+        )
+        customButton.enable()
+    }
+
 }

@@ -13,6 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.trans.R
 import com.example.trans.databinding.OtpScreenBinding
+import com.example.trans.network.Enums.NavigateTo
+import com.example.trans.network.Enums.RequestStatus
+import com.example.trans.utillity.UtilsClassUI
 import com.example.trans.utillity.firebase.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +31,8 @@ class OtpScreen : Fragment() {
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
 
+    @Inject
+    lateinit var utilsClassUI: UtilsClassUI
     private lateinit var binding: OtpScreenBinding
 
     override fun onCreateView(
@@ -41,6 +46,7 @@ class OtpScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listener()
+        setUpObserver()
         setUpClick()
 
     }
@@ -70,10 +76,15 @@ class OtpScreen : Fragment() {
     private fun userLoggedIn(firebaseUSer: FirebaseUser) {
         lifecycleScope.launch(Dispatchers.IO) {
             vm.userLoggedIn(firebaseUSer)
+            checkIfUserReg()
             withContext(Dispatchers.Main) {
-                navigateTo(OtpScreenDirections.actionGlobalHomeScreen())
+                utilsClassUI.toastMessage("Firebase login done 3.")
             }
         }
+    }
+
+    private fun checkIfUserReg() {
+        vm.getUserData()
     }
 
     private fun listener() {
@@ -85,6 +96,28 @@ class OtpScreen : Fragment() {
     private fun navigateTo(navDirections: NavDirections) {
         lifecycleScope.launch {
             findNavController().navigate(navDirections)
+        }
+    }
+
+    private fun setUpObserver() {
+        vm.navigationLiveData.observe(viewLifecycleOwner) { navigationPath ->
+            when (navigationPath) {
+                NavigateTo.HOME_SCREEN -> {
+                    navigateTo(OtpScreenDirections.actionGlobalHomeScreen())
+                }
+                else -> {
+                    navigateTo(OtpScreenDirections.actionGlobalRegistrationFragment())
+                }
+            }
+        }
+
+        vm.userDataStatusLiveData.observe(viewLifecycleOwner) { status ->
+            when (status) {
+                RequestStatus.REQ_PROGRESS -> utilsClassUI.showLoadingUI(binding.loadingLayout.root)
+                else -> {
+                    utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+                }
+            }
         }
     }
 }

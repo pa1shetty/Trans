@@ -1,10 +1,12 @@
 package com.example.trans.utillity.di
 
 import android.content.Context
+import com.example.trans.network.BaseUrlTypeEnum
 import com.example.trans.network.MyApi
 import com.example.trans.network.NetworkConnectionInterceptor
 import com.example.trans.network.NetworkConstants.CONNECTION_TIME_OUT
 import com.example.trans.network.NetworkConstants.READ_TIME_OUT
+import com.example.trans.network.NetworkConstants.getBaseUrl
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -46,9 +48,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient,gson: Gson): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://w9z0g.mocklab.io/")
+        .baseUrl(getBaseUrl(BaseUrlTypeEnum.Uat.baseUrlType))
         .client(okHttpClient)
         .build()
 

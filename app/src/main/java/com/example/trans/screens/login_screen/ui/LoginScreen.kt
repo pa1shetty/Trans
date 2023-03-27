@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.trans.R
 import com.example.trans.databinding.LoginScreenBinding
+import com.example.trans.utillity.UtilsClassUI
 import com.example.trans.utillity.firebase.FirebaseAuth
 import com.example.trans.utillity.google.GoogleSignSetup
 import com.google.android.gms.common.api.ApiException
@@ -29,6 +30,8 @@ class LoginScreen : Fragment() {
     private lateinit var binding: LoginScreenBinding
     private val vm: LoginVM by navGraphViewModels(R.id.login_graph) { defaultViewModelProviderFactory }
 
+    @Inject
+    lateinit var utilsClassUI: UtilsClassUI
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
 
@@ -51,9 +54,6 @@ class LoginScreen : Fragment() {
         binding.btnMblLogin.setOnClickListener {
             navigateTo(LoginScreenDirections.actionLoginScreenToPhoneNumberScreen())
         }
-        binding.btnGoogleLogin.setOnClickListener {
-            googleSignInStart()
-        }
     }
 
 
@@ -62,7 +62,7 @@ class LoginScreen : Fragment() {
         googleSignSetup.beginSignIn(onSuccess = { intentSenderRequest ->
             resultLauncher.launch(intentSenderRequest)
         }, onError = {
-            Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_LONG).show()
+            errorToast()
         })
 
     }
@@ -110,7 +110,8 @@ class LoginScreen : Fragment() {
     private fun userLoggedIn(firebaseUSer: FirebaseUser) {
         lifecycleScope.launch(Dispatchers.Main) {
             vm.userLoggedIn(firebaseUSer)
-            navigateTo(LoginScreenDirections.actionGlobalHomeScreen())
+            utilsClassUI.toastMessage("Firebase login done.")
+            //navigateTo(LoginScreenDirections.actionGlobalHomeScreen())
         }
     }
 
