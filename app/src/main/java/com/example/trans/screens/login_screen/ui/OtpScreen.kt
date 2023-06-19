@@ -13,15 +13,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.trans.R
 import com.example.trans.databinding.OtpScreenBinding
-import com.example.trans.network.Enums.NavigateTo
-import com.example.trans.network.Enums.RequestStatus
+import com.example.trans.network.enums.NavigateTo
+import com.example.trans.network.enums.RequestStatus
+import com.example.trans.screens.login_screen.vm.LoginVM
 import com.example.trans.utillity.UtilsClassUI
 import com.example.trans.utillity.firebase.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -77,9 +77,6 @@ class OtpScreen : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             vm.userLoggedIn(firebaseUSer)
             checkIfUserReg()
-            withContext(Dispatchers.Main) {
-                utilsClassUI.toastMessage("Firebase login done 3.")
-            }
         }
     }
 
@@ -105,6 +102,7 @@ class OtpScreen : Fragment() {
                 NavigateTo.HOME_SCREEN -> {
                     navigateTo(OtpScreenDirections.actionGlobalHomeScreen())
                 }
+
                 else -> {
                     navigateTo(OtpScreenDirections.actionGlobalRegistrationFragment())
                 }

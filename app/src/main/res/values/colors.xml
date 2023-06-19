@@ -8,14 +8,28 @@
 
 
     <color name="colorUIBrand">#5F259F</color>
-    <color name="colorUILiteBackground">#ECEFF1</color>
+    <color name="colorUIBrandTrans">#1A5F259F</color>
+
+    <color name="colorUILiteBackground">#f0f0f4</color>
+    <color name="colorUILiteBackgroundSecond">#f3f6fa</color>
+
+    <color name="colorUILiteBackgroundTrans">#00FFFFFF</color>
+
+    <color name="colorCardBackground">#ffffff</color>
     <color name="colorVectorBg">#145F259F</color>
     <color name="colorUIDark">#212121</color>
 
     <color name="bmrcl_color">@color/colorUIBrand</color>
     <color name="bmrcl_color_bg">#ffffff</color>
     <color name="colorSplashScreenBg">#ffffff</color>
-    <color name="textColor">@color/black</color>
-    <color name="lightGray">#D3D3D3</color>
+    <color name="textColor">#000000</color>
+    <color name="textColorSecond">#202020</color>
+    <color name="textColorOnDark">#ffffff</color>
+
+    <color name="lightGray">#959595</color>
+    <color name="lightGrayTrans">#1A959595</color>
+    <color name="red">#c70000 </color>
+    <color name="darkGray">#5A5A5A</color>
+    <color name="tranparent">#00000000</color>
 
 </resources>

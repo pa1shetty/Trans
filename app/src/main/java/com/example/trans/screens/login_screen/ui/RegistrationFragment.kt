@@ -2,7 +2,6 @@ package com.example.trans.screens.login_screen.ui
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.trans.databinding.FragmentRegistrationBinding
-import com.example.trans.network.Enums.RequestStatus
+import com.example.trans.network.enums.RequestStatus
 import com.example.trans.network.responses.UserDetails
+import com.example.trans.screens.login_screen.vm.RegistrationVM
 import com.example.trans.utillity.LocationHelper
 import com.example.trans.utillity.UtilClass
 import com.example.trans.utillity.UtilsClassUI
@@ -61,10 +61,6 @@ class RegistrationFragment : Fragment() {
     private fun handleBtnSaveClick() {
         if (isDataValid()) {
             locationHelper.getCurrentLocation(onLocationReceived = { location ->
-                Log.d(
-                    "test123",
-                    "onViewCreated: ${location.longitude} ${location.latitude}"
-                )
                 vm.sendUserData(
                     UserDetails(
                         usrAddrs = binding.tvShopAddress.text.toString(),
@@ -110,7 +106,8 @@ class RegistrationFragment : Fragment() {
             binding.tvPhoneNumber.text.toString(),
             binding.tvShopAddress.text.toString(),
             binding.tvShopName.text.toString(),
-            binding.tvShopName.text.toString()
+            binding.tvShopName.text.toString(),
+            binding.tvAltPhoneNumber.text.toString()
         )
     )
 

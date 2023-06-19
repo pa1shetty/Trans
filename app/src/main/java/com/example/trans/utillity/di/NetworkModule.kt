@@ -50,7 +50,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(getBaseUrl(BaseUrlTypeEnum.Uat.baseUrlType))
+        .baseUrl(getBaseUrl(BaseUrlTypeEnum.PostMan.baseUrlType))
         .client(okHttpClient)
         .build()
 

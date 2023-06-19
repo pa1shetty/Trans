@@ -10,5 +10,5 @@ data class UserSaveBody(
     val usrName: String = "",
     val usrPhnNo: Long = 0,
     val usrShopName: String = "",
-    val usrlat: Double = 0.0
+    val usrLat: Double = 0.0
 )

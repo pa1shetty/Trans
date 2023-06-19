@@ -12,4 +12,12 @@
     <key>min_version_of_app</key>
     <value>1</value>
   </entry>
+  <entry>
+    <key>min_product_quantity</key>
+    <value>1</value>
+  </entry>
+  <entry>
+    <key>max_product_quantity</key>
+    <value>10</value>
+  </entry>
 </defaults>

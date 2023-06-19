@@ -23,12 +23,15 @@
     <!-- TODO: Remove or change this placeholder text -->
 
     <string name="home_screen_welcome">Hello, %1$s</string>
+    <string name="add_items_to_cart">Add Item | ₹%1$s</string>
+
     <string name="profile">Profile</string>
-
-    <!-- Preference Titles -->
-
-    <!-- Messages Preferences -->
-
-    <!-- Sync Preferences -->
-
+    <string name="amount">₹%1$s per pack | Pack of 8</string>
+    <string name="out_of_stock">Out of stock</string>
+    <string name="coming_soon">Coming Soon</string>
+    <string name="bottom_sheet_content">Bottom Sheet Content</string>
+    <plurals name="items_in_cart">
+        <item quantity="one">%1$d Item in cart | ₹%2$d</item>
+        <item quantity="other">%1$d Items in cart | ₹%2$d</item>
+    </plurals>
 </resources>

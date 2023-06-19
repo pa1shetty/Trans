@@ -3,7 +3,7 @@ package com.example.trans.network.responses
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.example.trans.network.Enums.RegStatus
+import com.example.trans.network.enums.RegStatus
 
 @Entity(tableName = "user")
 data class UserDetails(

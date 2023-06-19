@@ -14,9 +14,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.trans.databinding.SetupScreenBinding
-import com.example.trans.network.Enums.NavigateTo.*
+import com.example.trans.network.enums.NavigateTo
 import com.example.trans.screens.setup_screen.utils.states.ConfigSetupState
 import com.example.trans.screens.setup_screen.vm.SetupScreenVM
+import com.example.trans.utillity.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +45,7 @@ class SetupScreen : Fragment() {
                     ConfigSetupState.DONE -> {
                         navigateTo()
                     }
+
                     else -> {
 
                     }
@@ -52,14 +54,16 @@ class SetupScreen : Fragment() {
         }
     }
 
-    private  fun navigateTo() {
+    private fun navigateTo() {
         splashScreen.setKeepOnScreenCondition { true }
-        lifecycleScope.launch(Dispatchers.IO) {
-            when (viewModel.navigate()) {
-                LOGIN_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToLoginScreen())
-                HOME_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToHomeScreen())
-                UPDATE_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToAppUpdateScreen())
-                REG_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToRegistrationFragment())
+        viewModel.navigateTo { navigateTo ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                when (navigateTo) {
+                    NavigateTo.LOGIN_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToLoginScreen())
+                    NavigateTo.HOME_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToHomeScreen())
+                    NavigateTo.UPDATE_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToAppUpdateScreen())
+                    NavigateTo.REG_SCREEN -> navigateToBg(SetupScreenDirections.actionSetupScreenToRegistrationFragment())
+                }
             }
         }
     }

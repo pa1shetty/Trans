@@ -6,8 +6,8 @@
         <item name="android:statusBarColor">@color/colorUILiteBackground</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
         <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorUIBrand</item>
+        <item name="colorPrimaryDark">@color/colorUIBrand</item>
         <item name="colorAccent">@color/colorUIBrand</item>
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
         <item name="colorButtonNormal">@color/colorAccent</item>

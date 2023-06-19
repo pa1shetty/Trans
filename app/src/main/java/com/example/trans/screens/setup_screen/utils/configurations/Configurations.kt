@@ -1,7 +1,7 @@
 package com.example.trans.screens.setup_screen.utils.configurations
 
 
-import com.example.trans.data.database.module.Config
+import com.example.trans.data.module.ConfigData
 import com.example.trans.data.database.DataBaseRepository
 import com.example.trans.network.NetworkRepository
 import com.example.trans.screens.setup_screen.utils.states.ConfigSetupState
@@ -27,7 +27,7 @@ private const val LOGIN_MANDATORY_DEF = "0"
 
 private const val MIN_PASSENGER_COUNT = "min_passenger_count"
 private const val MIN_PASSENGER_COUNT_DEF = "2"
-var configList = arrayListOf<Config>()
+var configDataList = arrayListOf<ConfigData>()
 
 class Configurations @Inject constructor(
     private val networkRepository: NetworkRepository,
@@ -38,17 +38,17 @@ class Configurations @Inject constructor(
         try {
             dataBaseRepository.saveConfig(getKeyValue(getConfigurationFromServer()))
         } catch (e: Exception) {
-            configList = dataBaseRepository.getConfigs() as ArrayList<Config>
+            configDataList = dataBaseRepository.getConfigs() as ArrayList<ConfigData>
             throw e
         }
         return ConfigSetupState.DONE
     }
 
-    private fun getKeyValue(jsonObj: JsonObject): ArrayList<Config> {
+    private fun getKeyValue(jsonObj: JsonObject): ArrayList<ConfigData> {
         jsonObj.keySet().forEach { keyStr ->
-            configList.add(Config(configName = keyStr, configValue = jsonObj[keyStr].asString))
+            configDataList.add(ConfigData(configName = keyStr, configValue = jsonObj[keyStr].asString))
         }
-        return configList
+        return configDataList
     }
 
     private suspend fun getConfigurationFromServer(): JsonObject {
@@ -65,7 +65,7 @@ class Configurations @Inject constructor(
 //        }
 
     private fun getConfiguration(key: String, defaultValue: String): String {
-        for (configuration in configList) {
+        for (configuration in configDataList) {
             if (configuration.configName.equals(key))
                 return configuration.configValue!!
         }
@@ -111,5 +111,5 @@ class Configurations @Inject constructor(
         return Integer.valueOf(getConfiguration(MIN_PASSENGER_COUNT, MIN_PASSENGER_COUNT_DEF))
     }
 
-    fun getConfigList() = configList
+    fun getConfigList() = configDataList
 }

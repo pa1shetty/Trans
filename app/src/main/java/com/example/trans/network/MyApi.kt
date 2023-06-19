@@ -24,9 +24,6 @@ interface MyApi {
         @Field("password") password: String
     ): Response<AuthResponse>
 
-    @GET("quotes")
-    suspend fun getQuotes(): Response<QuotesResponse>
-
     @GET("configs")
     suspend fun getConfigDownload(@Query("currentConfigVersion") currentConfigVersion: String): Response<JsonObject>
 
@@ -38,6 +35,9 @@ interface MyApi {
 
     @POST("User/postUserData")
     suspend fun postUserData(@Body userSaveBody: UserSaveBody): Response<JsonObject>
+
+    @GET("Product/getProductData")
+    suspend fun getProductData(): Response<JsonObject>
 
 }
 

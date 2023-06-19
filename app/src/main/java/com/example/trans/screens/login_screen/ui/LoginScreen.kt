@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.trans.R
 import com.example.trans.databinding.LoginScreenBinding
+import com.example.trans.screens.login_screen.vm.LoginVM
 import com.example.trans.utillity.UtilsClassUI
 import com.example.trans.utillity.firebase.FirebaseAuth
 import com.example.trans.utillity.google.GoogleSignSetup
@@ -90,6 +91,9 @@ class LoginScreen : Fragment() {
                     errorToast()
                 }
             }
+        }
+        catch (e:Exception){
+            errorToast()
         }
     }
 

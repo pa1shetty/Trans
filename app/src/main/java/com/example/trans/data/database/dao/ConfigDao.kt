@@ -1,14 +1,14 @@
 package com.example.trans.data.database.dao
 
 import androidx.room.*
-import com.example.trans.data.database.module.Config
+import com.example.trans.data.module.ConfigData
 
 @Dao
 @Entity
 interface ConfigDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveConfig(config: List<Config>)
+    fun saveConfig(configData: List<ConfigData>)
 
 
     @Query("SELECT configValue FROM config WHERE configName = :configName")
@@ -16,7 +16,7 @@ interface ConfigDao {
 
     @Query("SELECT * FROM config")
     @JvmSuppressWildcards
-    fun getConfigs(): List<Config>
+    fun getConfigs(): List<ConfigData>
 
 
 

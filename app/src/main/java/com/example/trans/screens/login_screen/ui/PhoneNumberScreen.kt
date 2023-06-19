@@ -13,13 +13,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.trans.R
 import com.example.trans.databinding.PhoneNumberScreenBinding
-import com.example.trans.network.Enums.RequestStatus
+import com.example.trans.network.responses.ResultRes
+import com.example.trans.screens.login_screen.vm.LoginVM
 import com.example.trans.screens.setup_screen.utils.CustomButton
 import com.example.trans.utillity.UtilsClassUI
 import com.example.trans.utillity.firebase.FirebaseAuth
+import com.example.trans.utillity.logger.Logger
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,18 +38,16 @@ class PhoneNumberScreen : Fragment() {
     lateinit var firebaseAuth: FirebaseAuth
     private lateinit var customButton: CustomButton
 
-
-    private lateinit var binding: PhoneNumberScreenBinding
+    private val binding: PhoneNumberScreenBinding by lazy {
+        PhoneNumberScreenBinding.inflate(layoutInflater)
+    }
 
     @Inject
     lateinit var utilsClassUI: UtilsClassUI
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = PhoneNumberScreenBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    ) = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,6 +95,7 @@ class PhoneNumberScreen : Fragment() {
             },
             onVerificationFailed = {
                 utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+                Logger.INSTANCE.debug { it.message }
                 Toast.makeText(requireContext(), "Otp Verification Failed", Toast.LENGTH_LONG)
                     .show()
             },
@@ -121,21 +125,70 @@ class PhoneNumberScreen : Fragment() {
     }
 
     private fun setUpObserver() {
-        vm.ifUserIsWhitelistedResponseLiveData.observe(viewLifecycleOwner) { loginState ->
-            if (loginState) {
-                startPhoneNumberVerification(("+91") + vm.phoneNumber)
-            } else {
-                utilsClassUI.showAlertDialog()
-            }
-        }
-        vm.requestStatusLiveData.observe(viewLifecycleOwner) { status ->
-            when (status) {
-                RequestStatus.REQ_PROGRESS -> utilsClassUI.showLoadingUI(binding.loadingLayout.root)
-                else -> {
+//        vm.ifUserIsWhitelistedResponseLiveData.observe(viewLifecycleOwner) { loginState ->
+//            if (loginState) {
+//                startPhoneNumberVerification(("+91") + vm.phoneNumber)
+//            } else {
+//                utilsClassUI.showAlertDialog()
+//            }
+//        }
+//        vm.requestStatusLiveData.observe(viewLifecycleOwner) { status ->
+//            when (status) {
+//                RequestStatus.REQ_PROGRESS -> {
+//                    utilsClassUI.showLoadingUI(binding.loadingLayout.root)
+//                }
+//                else -> {
+//                    utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+//                }
+//            }
+//        }
+//        resultJob = lifecycleScope.launch {
+//            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                vm.resultResFlow.onEach { result ->
+//                    when (result) {
+//                        is ResultRes.Success -> {
+//                            utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+//                            if (result.data as Boolean) {
+//                                startPhoneNumberVerification(("+91") + vm.phoneNumber)
+//                            } else {
+//                                utilsClassUI.showAlertDialog()
+//                            }
+//                        }
+//                        is ResultRes.Error -> {
+//                            utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+//                            utilsClassUI.toastMessage()
+//                        }
+//                        is ResultRes.Loading -> {
+//                            utilsClassUI.showLoadingUI(binding.loadingLayout.root)
+//                        }
+//                    }
+//                }.launchIn(lifecycleScope)
+//            }
+//        }
+
+        vm.resultResFlow.onEach { result ->
+            when (result) {
+                is ResultRes.Success -> {
                     utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+                    if (result.data as Boolean) {
+                        startPhoneNumberVerification(("+91") + vm.phoneNumber)
+                    } else {
+                        utilsClassUI.showAlertDialog()
+                    }
+                }
+
+                is ResultRes.Error -> {
+                    utilsClassUI.hideLoadingUI(binding.loadingLayout.root)
+                    utilsClassUI.toastMessage()
+                }
+
+                is ResultRes.Loading -> {
+                    utilsClassUI.showLoadingUI(binding.loadingLayout.root)
                 }
             }
-        }
+        }.catch {
+            utilsClassUI.toastMessage()
+        }.launchIn(lifecycleScope)
     }
 
     private fun setProceedButton() {

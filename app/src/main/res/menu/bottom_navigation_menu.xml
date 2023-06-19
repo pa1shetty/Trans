@@ -1,12 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/orderFragment"
+        android:id="@+id/homeScreen"
+        android:enabled="true"
+        android:icon="@drawable/home_outline"
+        android:title="Home" />
+    <item
+        android:id="@+id/cartScreen"
         android:enabled="true"
         android:icon="@drawable/outline_shopping_cart_24"
-        android:title="Shop"/>
+        android:title="Cart" />
     <item
-        android:id="@+id/historyFragment"
+        android:id="@+id/historyScreen"
         android:enabled="true"
         android:icon="@drawable/outline_history_24"
-        android:title="History"/>
+        android:title="Orders" />
 </menu>

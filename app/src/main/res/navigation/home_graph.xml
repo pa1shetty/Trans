@@ -30,9 +30,9 @@
     </fragment>
     <fragment
         android:id="@+id/homeScreen"
-        android:name="com.example.trans.screens.home_screen.OrderScreen"
+        android:name="com.example.trans.screens.home_screen.HomeRootScreen"
         android:label="home_screen"
-        tools:layout="@layout/order_screen" />
+        tools:layout="@layout/home_root_screen" />
     <navigation
         android:id="@+id/login_graph"
         app:startDestination="@id/phoneNumberScreen">

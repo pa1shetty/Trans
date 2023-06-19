@@ -3,10 +3,19 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-
-
     <color name="colorUIBrand">#A363EB</color>
+    <color name="colorUIBrandTrans">#1AA363EB</color>
+    <color name="colorUILiteBackgroundSecond">#f3f6fa</color>
+
     <color name="colorUILiteBackground">#2D2338</color>
+    <color name="colorCardBackground">#4E3C61</color>
+
     <color name="colorVectorBg">#1AA363EB</color>
     <color name="colorUIDark">#EFE6F7</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="textColorSecond">#DAD9D9</color>
+    <color name="lightGray">#cccccc</color>
+    <color name="lightGrayTrans">#1ACCCCCC</color>
+    <color name="textColorOnDark">#000000</color>
+
 </resources>

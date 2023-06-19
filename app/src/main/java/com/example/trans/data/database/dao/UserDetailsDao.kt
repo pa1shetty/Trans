@@ -14,6 +14,9 @@ interface UserDetailsDao {
     @Query("SELECT * FROM user WHERE usrId = :usrId")
     fun getUser(usrId: String): UserDetails
 
+    @Query("SELECT usrName FROM user WHERE usrId = :usrId")
+    fun getUserName(usrId: String): String
+
     @Query("DELETE FROM user")
     fun nukeConfigurable()
 

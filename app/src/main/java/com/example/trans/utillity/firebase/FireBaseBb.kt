@@ -1,5 +1,6 @@
 package com.example.trans.utillity.firebase
 
+import com.example.trans.data.module.ProductData
 import com.example.trans.network.NetworkInterface
 import com.example.trans.network.responses.UserData
 import com.example.trans.network.responses.UserDetails
@@ -61,6 +62,10 @@ class FireBaseBb : NetworkInterface {
     }
 
     override suspend fun sendUserData(userDetails: UserDetails): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getProductsData(): List<ProductData> {
         TODO("Not yet implemented")
     }
 

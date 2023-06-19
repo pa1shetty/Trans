@@ -1,5 +1,6 @@
 package com.example.trans.network
 
+import com.example.trans.utillity.logger.NetworkLogger
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
@@ -11,9 +12,11 @@ abstract class SafeApiRequest {
         if (response.isSuccessful) {
             val jsonObject = JSONObject(response.body().toString())
             if (jsonObject.getString("status").equals("OK")) {
+                NetworkLogger.INSTANCE.debug { "Response: ${response.body().toString()}" }
                 return response.body()!!
             } else {
-                throw   ErrorException(
+                NetworkLogger.INSTANCE.error { "Error:  ${jsonObject.getString("errorMsg")}" }
+                throw ErrorException(
                     jsonObject.getString("errorMsg"),
                     jsonObject.getInt("errorCode")
                 )
@@ -21,6 +24,7 @@ abstract class SafeApiRequest {
         } else {
             val error = response.errorBody().toString()
             val message = StringBuilder()
+
             error.let {
                 try {
                     message.append(JSONObject(it).getString("message"))
@@ -28,6 +32,7 @@ abstract class SafeApiRequest {
                 }
                 message.append("\n")
             }
+            NetworkLogger.INSTANCE.error { message }
             message.append("Error Code: ${response.code()}")
             throw ApiException(message.toString())
         }

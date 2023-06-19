@@ -1,8 +1,11 @@
 package com.example.trans.utillity
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.trans.R
@@ -78,5 +81,33 @@ class UtilsClassUI @Inject constructor(
         val rootView: View =
             (context as Activity).window.decorView.findViewById(android.R.id.content)
         rootView.isEnabled = true
+    }
+     fun animateText(textView: TextView,text: String){
+         textView.text=text
+        val animation = AnimationUtils.loadAnimation(context, R.anim.bottom_up_animation)
+         textView.startAnimation(animation)
+    }
+
+    fun animateTextViewIn(textView: TextView,text: String) {
+        textView.text = text // Set the text to the TextView
+
+        // Calculate the height to animate from
+        val height = textView.height.toFloat()
+        textView.translationY = height // Set initial translationY to the height
+        // Create a ValueAnimator to animate the translationY property
+        val animator = ValueAnimator.ofFloat(height, 0f)
+        animator.duration = 300 // Animation duration in milliseconds
+
+        // Update the translationY property during animation
+        animator.addUpdateListener { animation ->
+            val animatedValue = animation.animatedValue as Float
+            textView.translationY = animatedValue
+        }
+
+        animator.start() // Start the animation
+    }
+
+    fun getAmount(i: Int): CharSequence? {
+        return "₹$i"
     }
 }

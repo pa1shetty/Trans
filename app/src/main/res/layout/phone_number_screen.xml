@@ -8,7 +8,7 @@
     android:background="@color/colorUILiteBackground"
     android:padding="18dp">
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etNumber"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -18,7 +18,6 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="phone"
-        android:maxLength="10"
         android:padding="4dp"
         android:selectAllOnFocus="true"
         android:visibility="visible"
@@ -61,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/by_proceeding_you_accept"
+        android:textColor="@color/textColorSecond"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_t_n_c_click"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -87,6 +87,7 @@
         android:layout_marginTop="12dp"
         android:text="@string/we_will_send_an_otp_to_your_number"
         android:textSize="12sp"
+        android:textColor="@color/textColorSecond"
         app:layout_constraintBottom_toTopOf="@+id/etNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
