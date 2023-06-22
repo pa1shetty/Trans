@@ -30,8 +30,14 @@
     <string name="out_of_stock">Out of stock</string>
     <string name="coming_soon">Coming Soon</string>
     <string name="bottom_sheet_content">Bottom Sheet Content</string>
+    <string name="place_order">Place Order</string>
     <plurals name="items_in_cart">
         <item quantity="one">%1$d Item in cart | ₹%2$d</item>
         <item quantity="other">%1$d Items in cart | ₹%2$d</item>
     </plurals>
+    <plurals name="items_in_cart_v2">
+        <item quantity="one">%1$d Item in cart</item>
+        <item quantity="other">%1$d Items in cart</item>
+    </plurals>
+    <string name="amount_text">₹1$d</string>
 </resources>

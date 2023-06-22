@@ -13,7 +13,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,15 +28,27 @@ class HomeViewModel @Inject constructor(
     val allProducts: Flow<List<ProductData>> = dataBaseRepository.allProducts
     val allCartProducts: Flow<List<CartData>> = dataBaseRepository.allCartProducts
     private val _userName = MutableSharedFlow<String>(replay = 0)
-    private val _cartAmount = MutableSharedFlow<Int>()
-    val cartAmount = _cartAmount.asSharedFlow()
+    private val _cartAmount = MutableStateFlow(0)
+    val cartAmount = _cartAmount.asStateFlow()
+    private val _cartItemCount = MutableStateFlow(0)
+    val cartItemCount = _cartItemCount.asStateFlow()
 
     init {
         getProducts()
         gerUserName()
+        getCartAmountAndItemCount()
     }
 
-    fun getCartAmount(cartList: List<CartData>): Int {
+    private fun getCartAmountAndItemCount() {
+        viewModelScope.launch {
+            allCartProducts.collect { productList ->
+                _cartAmount.emit(getCartAmount(productList))
+                _cartItemCount.emit(productList.size)
+            }
+        }
+    }
+
+    private fun getCartAmount(cartList: List<CartData>): Int {
         var totalAmount=0
         cartList.forEach { cartData ->
             totalAmount+=cartData.prdQnty*cartData.prdAmount
@@ -97,8 +110,17 @@ return totalAmount
     }
 
     fun getPrdDetailsFromCart(productData: ProductData): CartData {
-        return dataBaseRepository.getProductFromCart(productData.prdId)
-
+        return dataBaseRepository.getProductFromCart(productData.prdId) ?: CartData(
+            prdId = productData.prdId,
+            prdQnty = 1,
+            prdAmount = productData.prdAmount,
+            prdName = productData.prdName,
+            prdDesc = productData.prdDesc,
+            prdImage = productData.prdImage,
+            prdStatus = productData.prdStatus,
+            prdMinOrderQnty = productData.prdMinOrderQnty,
+            prdMaxOrderQnty = productData.prdMaxOrderQnty
+        )
     }
 
     fun getCartSize(cartList: List<CartData>) = cartList.size

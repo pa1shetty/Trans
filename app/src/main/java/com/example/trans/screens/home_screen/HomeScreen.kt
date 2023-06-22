@@ -13,9 +13,11 @@ import com.example.trans.R
 import com.example.trans.databinding.HomeScreenBinding
 import com.example.trans.screens.bottomsheet.BottomSheet
 import com.example.trans.screens.home_screen.adapters.ProductAdapter
+import com.example.trans.utillity.logger.Logger
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -81,22 +83,29 @@ class HomeScreen : Fragment() {
     private fun observe() {
         lifecycleScope.launch {
             viewModel.allProducts.collect {
+                Logger.INSTANCE.debug { it.toString() }
                 adapter.submitList(it)
             }
         }
 
         lifecycleScope.launch {
-            viewModel.allCartProducts.collect { cartList ->
-                if (cartList.isNotEmpty()) {
-                    binding.tvCartDetails.text = resources.getQuantityString(
-                        R.plurals.items_in_cart,
-                        viewModel.getCartSize(cartList),
-                        viewModel.getCartSize(cartList),
-                        viewModel.getCartAmount(cartList)
-                    )
-                    binding.viewCartStripe.visibility = View.VISIBLE
-                } else {
+            viewModel.cartItemCount.combine(viewModel.cartAmount) { cartItemCount, cartAmount ->
+                resources.getQuantityString(
+                    R.plurals.items_in_cart,
+                    cartItemCount,
+                    cartItemCount,
+                    cartAmount
+                )
+            }.collect { text ->
+                binding.tvCartDetails.text = text
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.cartItemCount.collect { cartItemCount ->
+                if (cartItemCount < 1) {
                     binding.viewCartStripe.visibility = View.GONE
+                } else {
+                    binding.viewCartStripe.visibility = View.VISIBLE
                 }
             }
         }
