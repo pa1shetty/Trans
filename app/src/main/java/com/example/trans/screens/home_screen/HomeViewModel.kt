@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -25,35 +26,47 @@ class HomeViewModel @Inject constructor(
     private val dataBaseRepository: DataBaseRepository,
     private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
-    val allProducts: Flow<List<ProductData>> = dataBaseRepository.allProducts
+    //val allProducts: Flow<List<ProductData>> = dataBaseRepository.allProducts
     val allCartProducts: Flow<List<CartData>> = dataBaseRepository.allCartProducts
     private val _userName = MutableSharedFlow<String>(replay = 0)
     private val _cartAmount = MutableStateFlow(0)
     val cartAmount = _cartAmount.asStateFlow()
     private val _cartItemCount = MutableStateFlow(0)
     val cartItemCount = _cartItemCount.asStateFlow()
+    private val _isCartIsEmpty = MutableStateFlow(true)
+    val isCartIsEmpty = _isCartIsEmpty.asStateFlow()
+    private val _productListFetchResult: MutableStateFlow<Result<List<ProductData>>> =
+        MutableStateFlow(Result.Default)
+    val productListFetchResult: StateFlow<Result<List<ProductData>>> =
+        _productListFetchResult
+    val allProducts: Flow<List<ProductData>> = dataBaseRepository.allProducts
+    var productLoadedOnce = false
 
     init {
         getProducts()
         gerUserName()
-        getCartAmountAndItemCount()
     }
 
     private fun getCartAmountAndItemCount() {
         viewModelScope.launch {
             allCartProducts.collect { productList ->
                 _cartAmount.emit(getCartAmount(productList))
+                if (productList.isNotEmpty()) {
+                    _isCartIsEmpty.emit(false)
+                } else {
+                    _isCartIsEmpty.emit(true)
+                }
                 _cartItemCount.emit(productList.size)
             }
         }
     }
 
     private fun getCartAmount(cartList: List<CartData>): Int {
-        var totalAmount=0
+        var totalAmount = 0
         cartList.forEach { cartData ->
-            totalAmount+=cartData.prdQnty*cartData.prdAmount
+            totalAmount += cartData.prdQnty * cartData.prdAmount
         }
-return totalAmount
+        return totalAmount
     }
 
     private fun gerUserName() {
@@ -62,12 +75,21 @@ return totalAmount
         }
     }
 
-    private fun getProducts() {
+    fun getProducts() {
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                dataBaseRepository.clearProductsTable()
-                dataBaseRepository.saveProducts(networkInterface.getProductsData())
+                _productListFetchResult.emit(Result.Loading)
+                val products = networkInterface.getProductsData()
+                //dataBaseRepository.clearProductsTable()
+                dataBaseRepository.saveProducts(products)
+                _productListFetchResult.emit(Result.Success(emptyList()))
+                if (!productLoadedOnce) {
+                    productLoadedOnce = true
+                    getCartAmountAndItemCount()
+                }
             } catch (e: Exception) {
+                _productListFetchResult.emit(Result.Error(""))
                 Log.d("test123", "getProducts: " + e.message)
             }
         }
@@ -124,5 +146,14 @@ return totalAmount
     }
 
     fun getCartSize(cartList: List<CartData>) = cartList.size
+
+
 }
 
+sealed class Result<out T> {
+    object Default : Result<Nothing>()
+
+    object Loading : Result<Nothing>()
+    data class Success<T>(val data: T) : Result<T>()
+    data class Error(val message: String) : Result<Nothing>()
+}

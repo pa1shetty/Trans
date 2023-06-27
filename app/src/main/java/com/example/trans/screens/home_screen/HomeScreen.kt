@@ -13,10 +13,10 @@ import com.example.trans.R
 import com.example.trans.databinding.HomeScreenBinding
 import com.example.trans.screens.bottomsheet.BottomSheet
 import com.example.trans.screens.home_screen.adapters.ProductAdapter
-import com.example.trans.utillity.logger.Logger
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,7 +34,6 @@ class HomeScreen : Fragment() {
 
     @Inject
     lateinit var bottomSheet: BottomSheet
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -50,7 +49,13 @@ class HomeScreen : Fragment() {
         //showViewCartSnackBar()
         setUpViewCartStrip()
         observe()
+        handleSwipeToRefresh()
+    }
 
+    private fun handleSwipeToRefresh() {
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.getProducts()
+        }
     }
 
     private fun setUpViewCartStrip() {
@@ -64,6 +69,8 @@ class HomeScreen : Fragment() {
 
     private fun setRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val itemDecoration = BottomMarginItemDecoration(160)
+        binding.recyclerView.addItemDecoration(itemDecoration)
         adapter = ProductAdapter(glide, onItemClick = {
             lifecycleScope.launch(Dispatchers.IO) {
                 val cartData = viewModel.getPrdDetailsFromCart(it)
@@ -83,7 +90,6 @@ class HomeScreen : Fragment() {
     private fun observe() {
         lifecycleScope.launch {
             viewModel.allProducts.collect {
-                Logger.INSTANCE.debug { it.toString() }
                 adapter.submitList(it)
             }
         }
@@ -109,5 +115,26 @@ class HomeScreen : Fragment() {
                 }
             }
         }
+        lifecycleScope.launch {
+            viewModel.productListFetchResult.collect { statusWithData ->
+                when (statusWithData) {
+                    Result.Default -> {
+                    }
+
+                    is Result.Error -> {
+                        binding.swiperefresh.isRefreshing = false
+                    }
+
+                    Result.Loading -> {
+                        binding.swiperefresh.isRefreshing = true
+                    }
+
+                    is Result.Success -> {
+                        binding.swiperefresh.isRefreshing = false
+                    }
+                }
+            }
+        }
     }
 }
+

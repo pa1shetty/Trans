@@ -19,7 +19,9 @@ class CartViewHolder constructor(
         glide.load(item.prdImage).into(binding.ivPrd)
         binding.tvPrdAmt.text = "₹${item.prdAmount * item.prdQnty}"
         binding.tvPrdCount.text = item.prdQnty.toString()
-        binding.tvAddPrd.setOnClickListener { onItemClick(item, ClickType.IncreaseProduct) }
+        binding.tvAddPrd.setOnClickListener {
+            onItemClick(item, ClickType.IncreaseProduct)
+        }
         binding.tvRemovePrd.setOnClickListener { onItemClick(item, ClickType.DecreaseProduct) }
     }
 }
